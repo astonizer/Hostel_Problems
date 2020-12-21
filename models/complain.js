@@ -32,5 +32,4 @@ const Complain=mongoose.model('complain',new mongoose.Schema({
     
 }));
 
-// exports.Complain=Complain;
 module.exports=Complain;
