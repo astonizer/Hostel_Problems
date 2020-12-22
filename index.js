@@ -66,11 +66,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-<<<<<<< HEAD
-    res.render('signup');
-=======
     res.render('sign');
->>>>>>> upstream/master
 });
 
 
