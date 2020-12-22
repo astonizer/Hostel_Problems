@@ -34,11 +34,19 @@ app.set('view engine', 'ejs');
 // basic routes
 
 app.get('/', (req, res) => {
-    Complain.find({},function(err,data){
-        console.log(data);
-        res.render('index',{data});
-    }
-    )  
+    
+    const data = [
+        {"name":"Drake", "type":"Electrical", "RoomNo":"A-324", "typeOF":"Fan", "problem":"lorem ipsum", "phone":"1233456"},
+        {"name":"Drake", "type":"Electrical", "RoomNo":"A-324", "typeOF":"Fan", "problem":"lorem ipsum", "phone":"1233456"},
+        {"name":"Drake", "type":"Electrical", "RoomNo":"A-324", "typeOF":"Fan", "problem":"lorem ipsum", "phone":"1233456"},
+        {"name":"Drake", "type":"Electrical", "RoomNo":"A-324", "typeOF":"Fan", "problem":"lorem ipsum", "phone":"1233456"},
+        {"name":"Drake", "type":"Electrical", "RoomNo":"A-324", "typeOF":"Fan", "problem":"lorem ipsum", "phone":"1233456"},
+        {"name":"Drake", "type":"Electrical", "RoomNo":"A-324", "typeOF":"Fan", "problem":"lorem ipsum", "phone":"1233456"},
+        {"name":"Drake", "type":"Electrical", "RoomNo":"A-324", "typeOF":"Fan", "problem":"lorem ipsum", "phone":"1233456"},
+        {"name":"Drake", "type":"Electrical", "RoomNo":"A-324", "typeOF":"Fan", "problem":"lorem ipsum", "phone":"1233456"},
+    ];
+
+    res.render('index', { data }); 
 });
 
 app.get('/complaint', (req, res) => {
