@@ -47,8 +47,16 @@ app.get('/complaint', (req, res) => {
 });
 
 app.get('/profile',checkAuth, (req, res) => {
-    // rendering index page as profile doesn't exist yet
-    res.render('profile');
+    // render dummy data
+    const userData = {
+        username: "Moon",
+        name: "Ras",
+        type: "Gajjar",
+        RoomNo: "A-111",
+        complaintsPending: 3,
+        complantsSolved: 5
+    };
+    res.render('profile', { userData });
 });
 
 app.get('/about', (req, res) => {
