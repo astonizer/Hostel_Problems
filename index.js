@@ -1,6 +1,5 @@
 //This returns a function
 const express=require('express');
-
 const mongoose = require('mongoose');
 const cookieParser=require('cookie-parser');
 //calling the express function
@@ -14,6 +13,7 @@ app.use(cookieParser());
 app.use(express.static('public'));
 // complain api routes
 var bodyParser = require('body-parser');
+const { use } = require('./routes/Complains');
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(express.json());
@@ -46,17 +46,20 @@ app.get('/complaint', (req, res) => {
     res.render('complaintForm');
 });
 
-app.get('/profile',checkAuth, (req, res) => {
-    // render dummy data
-    const userData = {
-        username: "Moon",
-        name: "Ras",
-        type: "Gajjar",
-        RoomNo: "A-111",
-        complaintsPending: 3,
-        complantsSolved: 5
-    };
-    res.render('profile', { userData });
+app.get('/profile',checkAuth,(req, res) => {
+    console.log(req.userData);
+   Complain.find({name:req.query.name},function(err,userdata){
+       console.log(userdata);
+         const datas={
+            email:req.userData.email,
+            name:req.userData.name,
+            RoomNo:req.userData.RoomNo,
+            HostelName:req.userData.HostelName,
+            TotalComplain:userdata.length,
+        }
+        res.render('profile',{datas});
+   })
+   
 });
 
 app.get('/about', (req, res) => {
