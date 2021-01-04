@@ -7,7 +7,7 @@ const app=express();
 const complains=require('./routes/Complains');
 const loged=require('./routes/login');
 const Complain=require('./models/complain');
-const checkAuth=require('./middleware/auth');
+const { checkAuth, checkUser } =require('./middleware/auth');
 //built in middleware for serving static files
 app.use(cookieParser());
 app.use(express.static('public'));
@@ -17,6 +17,9 @@ const { use } = require('./routes/Complains');
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(express.json());
+
+// check if user is logged before every request
+app.get('*', checkUser);
 app.use('/complains',complains);
 
 app.use('/loged',loged);

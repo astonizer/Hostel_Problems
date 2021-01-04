@@ -138,6 +138,11 @@ router.delete('/:userId',(req,res,next)=>{
    });
 });
 
+router.get((req, res, next) => {
+    // replace existing cookie with fast expiring cookie
+    res.cookie('token', '', { maxAge: 1 });
+    res.redirect('/');
+});
 
 // router.post('/login', (req, res) => {
 //     const email = req.body.email;

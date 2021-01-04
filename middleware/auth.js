@@ -1,13 +1,15 @@
 const jwt=require('jsonwebtoken');
 var cookieParser = require('cookie-parser')
 require('dotenv').config()
+const User = require('../models/Users');
 
-module.exports=(req,res,next)=>{
+const checkAuth=(req,res,next)=>{
     try{
         // console.log('hello');
-        console.log(req.cookies.token);
+        const token = req.cookies.token;
+        console.log(token);
         // console.log(process.env.JWT_KEY);
-        jwt.verify(req.cookies.token, process.env.JWT_KEY,(err,decoded)=>{
+        jwt.verify(token, process.env.JWT_KEY,(err,decoded)=>{
             if(err)
             {
                 res.status(500).json({err:"Not Authorized"})
@@ -26,4 +28,32 @@ module.exports=(req,res,next)=>{
        }) 
     }
    
+}
+
+const checkUser = (req, res, next) => {
+    const token = req.cookies.token;
+    
+    // verification of token
+    if(token) {
+        jwt.verify(token, JWT_KEY, async (err, decodedToken) => {
+            if(err) {
+                console.log(err.message);
+                res.locals.user = null;
+                next();
+            } else {
+                //console.log(decodedToken);
+                let user = await User.findById(decodedToken.id);
+                res.locals.user = user;
+                next();
+            }
+        });
+    } else {
+        res.locals.user = null;
+        next();
+    }
+}
+
+module.exports = {
+    checkAuth,
+    checkUser
 }

@@ -14,13 +14,23 @@
                     <li class="nav-item active"><a class="nav-link" href="#footer"><span class="fa fa-address-card fa-lg"></span> Contact Us</a></li>
                 </ul>
                 <span>
-                    <a href="/login">
-                        <span class="fa fa-sign-in"></span> Log In  
-                    </a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="/signup">                
-                        <span class="fa fa-user-plus"></span> Sign Up
-                    </a>
+                    <% if(username) { %>
+                        <a href="/login">
+                            <span class="fa fa-sign-in"></span> Log In  
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="/signup">                
+                            <span class="fa fa-user-plus"></span> Sign Up
+                        </a>
+                    <% } else { %>
+                        <a href="/profile">
+                            <span class="fa fa-sign-in"></span> <% username %> 
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="/logout">                
+                            <span class="fa fa-user-plus"></span> Log Out
+                        </a>
+                    <% } %>
                 </span>
             </div>
         </div>
