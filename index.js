@@ -18,19 +18,18 @@ const { use } = require('./routes/Complains');
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(express.json());
 
-// check if user is logged before every request
 app.get('*', checkUser);
 app.use('/complains',complains);
 
 app.use('/loged',loged);
 //mongoose.connect returns a promise
 
-const connection_url = 'mongodb://localhost/HostelManagement';
+const connection_url =  'mongodb://localhost/HostelManagement';
 
 mongoose.connect(connection_url, {useNewUrlParser:true})
     .then(()=>console.log('Connected to MongoDB...'))
     .catch(err=>console.error('Could not connect to MongoDb'));
-
+    
 // set template engine as ejs
 // express by default looks for view engines in '/views' directory
 app.set('view engine', 'ejs');
@@ -47,12 +46,17 @@ app.get('/', (req, res) => {
     )
 });
 
-app.get('/complaint', (req, res) => {
+app.get('/complaint', checkAuth,(req, res,err) => {
     // rendering index page as profile doesn't exist yet
     res.render('complaintForm');
 });
 
+app.get('/error',(req,res)=>{
+    res.render('error');
+})
+
 app.get('/profile',checkAuth,(req, res) => {
+
     console.log(req.userData);
    Complain.find({name:req.query.name},function(err,userdata){
        console.log(userdata);
@@ -64,7 +68,7 @@ app.get('/profile',checkAuth,(req, res) => {
             TotalComplain:userdata.length,
         }
         res.render('profile',{datas});
-   })   
+   })      
 });
 
 app.get('/about', (req, res) => {
@@ -88,4 +92,4 @@ app.get('/signup', (req, res) => {
 
 const port =process.env.PORT || 3000;
 //asynchronous function handles wih callback
-app.listen(3000,()=>console.log(`Listening to port ${port}...`));
+app.listen(port,()=>console.log(`Listening to port ${port}...`));

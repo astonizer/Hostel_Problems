@@ -11,8 +11,11 @@ const checkAuth=(req,res,next)=>{
         // console.log(process.env.JWT_KEY);
         jwt.verify(token, process.env.JWT_KEY,(err,decoded)=>{
             if(err)
-            {
-                res.status(500).json({err:"Not Authorized"})
+            {   console.log("Not Authorized");
+               // res.status(500).json({err:"Not Authorized"})
+             
+               res.redirect('/error');  
+                
             }
             // console.log(decoded);
             req.userData=decoded;
@@ -22,10 +25,12 @@ const checkAuth=(req,res,next)=>{
        
     }
     catch(error)
-    {
-       return res.status(401).json({
-           message:'Auth Failed Please Login First'
-       }) 
+
+
+    {    res.redirect('/error');  
+        console.log("Auth Failed Please Login First");
+        
+        
     }
    
 }
