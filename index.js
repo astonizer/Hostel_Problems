@@ -8,16 +8,20 @@ const complains=require('./routes/Complains');
 const loged=require('./routes/login');
 const Complain=require('./models/complain');
 const checkAuth=require('./middleware/auth');
+
 //built in middleware for serving static files
 app.use(cookieParser());
 app.use(express.static('public'));
+
 // complain api routes
 var bodyParser = require('body-parser');
 const { use } = require('./routes/Complains');
 
+
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(express.json());
 app.use('/complains',complains);
+
 
 app.use('/loged',loged);
 //mongoose.connect returns a promise
@@ -27,21 +31,23 @@ const connection_url =  'mongodb://localhost/HostelManagement';
 mongoose.connect(connection_url, {useNewUrlParser:true})
     .then(()=>console.log('Connected to MongoDB...'))
     .catch(err=>console.error('Could not connect to MongoDb'));
+
     
 // set template engine as ejs
 // express by default looks for view engines in '/views' directory
 app.set('view engine', 'ejs');
 
+
 // recognize the incoming Request Object as a JSON Object
+
 
 // basic routes
 
 app.get('/', (req, res) => {
     Complain.find({},function(err,data){
-        console.log(data);
+        // console.log(data);
         res.render('index',{data});
-    }
-    )
+    })
 });
 
 app.get('/complaint', checkAuth,(req, res,err) => {
@@ -55,7 +61,7 @@ app.get('/error',(req,res)=>{
 
 app.get('/profile',checkAuth,(req, res) => {
 
-    console.log(req.userData);
+    // console.log(req.userData);
    Complain.find({name:req.query.name},function(err,userdata){
        console.log(userdata);
          const datas={
